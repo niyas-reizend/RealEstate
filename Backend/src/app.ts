@@ -32,6 +32,7 @@ app.use("/api",commissionRouter);
 app.use("/api",passwordRouter);
 app.use("/api",tenantProfileRouter);
 app.use("/api",bookingRouter);
+console.log("git test")
 // app.use("/api",dashboardRoutes);
 
 
