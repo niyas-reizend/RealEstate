@@ -122,9 +122,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
-
-
-    // 👇 Required for TypeORM decorators
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }

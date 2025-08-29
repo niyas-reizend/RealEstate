@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const multer_1 = require("../utils/multer");
+const tenantProfile_controller_1 = require("../controllers/tenantProfile.controller");
+const authenticate_1 = require("../middleware/authenticate");
+const authorizeRole_1 = require("../middleware/authorizeRole");
+const tenantProfileRouter = (0, express_1.Router)();
+tenantProfileRouter.post("/createProfile", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant"), multer_1.uploadDocument.single("identityDocumentUrl"), tenantProfile_controller_1.handleCreateTenantProfile);
+tenantProfileRouter.patch("/verifyTenants", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("admin"), tenantProfile_controller_1.handleVerifyTenantProfile);
+tenantProfileRouter.get("/getalltenants", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("admin"), tenantProfile_controller_1.handleGetAllTenants);
+tenantProfileRouter.get("/tenantProfilebyid", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant"), tenantProfile_controller_1.getTenantProfile);
+// tenantProfileRouter.delete("/:id", handleDeleteTenantProfile);
+exports.default = tenantProfileRouter;

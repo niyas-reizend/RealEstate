@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const agreement_controller_1 = require("../controllers/agreement.controller");
+const authenticate_1 = require("../middleware/authenticate");
+const authorizeRole_1 = require("../middleware/authorizeRole");
+const BlockMiddleware_1 = require("../middleware/BlockMiddleware");
+const agreementRouter = (0, express_1.Router)();
+// agreementRouter.post("/createAgreement", createAgreementController);
+agreementRouter.get("/getallagreements", authenticate_1.authenticate, agreement_controller_1.handleGetAllAgreements);
+agreementRouter.get("/agreement/:id", authenticate_1.authenticate, agreement_controller_1.getAgreementByIdController);
+agreementRouter.get("/tenantAgreements", authenticate_1.authenticate, BlockMiddleware_1.BlockMiddleware, agreement_controller_1.handleGetAgreementsByTenantId);
+agreementRouter.get("/ownerAgreements", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), agreement_controller_1.handleGetAgreementsByOwnerId);
+exports.default = agreementRouter;

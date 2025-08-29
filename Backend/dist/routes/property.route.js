@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const property_controller_1 = require("../controllers/property.controller");
+const multer_1 = require("../utils/multer");
+const authenticate_1 = require("../middleware/authenticate");
+const authorizeRole_1 = require("../middleware/authorizeRole");
+const BlockMiddleware_1 = require("../middleware/BlockMiddleware");
+const propertyRouter = (0, express_1.Router)();
+propertyRouter.get("/getallproperty", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("admin"), property_controller_1.handleGetAllProperties);
+propertyRouter.get("/getAllUnverifiedProperties", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("admin"), property_controller_1.handleGetUnverifiedProperties);
+propertyRouter.get("/getallpropertyfortenants", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant", "admin"), property_controller_1.handleGetAllPropertiesForTenants); //for tenants
+propertyRouter.get("/property/:id", property_controller_1.getPropertyByIdController);
+propertyRouter.delete("/property/:id", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), BlockMiddleware_1.BlockMiddleware, property_controller_1.handleDeleteProperty);
+propertyRouter.put("/propertyApproval", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("admin"), property_controller_1.handleApproveProperty);
+propertyRouter.get("/getPropertiesByOwnerId", authenticate_1.authenticate, property_controller_1.getOwnerPropertiesController);
+propertyRouter.post("/add-property", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)('owner'), multer_1.upload.array("images", 5), BlockMiddleware_1.BlockMiddleware, property_controller_1.handleAddProperty);
+propertyRouter.put('/update/:id', multer_1.upload.none(), authenticate_1.authenticate, BlockMiddleware_1.BlockMiddleware, property_controller_1.updatePropertyController);
+propertyRouter.get("/getPropertiesByAgentId", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("agent"), property_controller_1.getAgentPropertiesController);
+exports.default = propertyRouter;

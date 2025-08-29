@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const enquiry_controller_1 = require("../controllers/enquiry.controller");
+const authenticate_1 = require("../middleware/authenticate");
+const authorizeRole_1 = require("../middleware/authorizeRole");
+const BlockMiddleware_1 = require("../middleware/BlockMiddleware");
+const enquiryRouter = (0, express_1.Router)();
+enquiryRouter.post("/createEnquiry", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant"), BlockMiddleware_1.BlockMiddleware, enquiry_controller_1.handleCreateEnquiry);
+enquiryRouter.get("/getEnquiryByTenant", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant"), enquiry_controller_1.handleGetTenantEnquiries);
+enquiryRouter.get("/getEnquiryByOwner", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), enquiry_controller_1.handleGetEnquiriesByOwner);
+enquiryRouter.patch("/enquiry/reply/:id", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), BlockMiddleware_1.BlockMiddleware, enquiry_controller_1.handleReplyToEnquiry);
+exports.default = enquiryRouter;

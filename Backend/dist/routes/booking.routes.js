@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const booking_controller_1 = require("../controllers/booking.controller");
+const authenticate_1 = require("../middleware/authenticate");
+const authorizeRole_1 = require("../middleware/authorizeRole");
+const BlockMiddleware_1 = require("../middleware/BlockMiddleware");
+const bookingRouter = (0, express_1.Router)();
+bookingRouter.post("/createBooking", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant"), BlockMiddleware_1.BlockMiddleware, booking_controller_1.handleCreateBooking);
+bookingRouter.put("/updateBooking", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), BlockMiddleware_1.BlockMiddleware, booking_controller_1.updateBookingStatusController);
+bookingRouter.get("/getTenantBooking", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("tenant"), booking_controller_1.handleGetTenantBookings);
+bookingRouter.get("/getOwnerBooking", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), booking_controller_1.handleGetOwnerBookings);
+bookingRouter.get("/getOwnerBooking", authenticate_1.authenticate, (0, authorizeRole_1.authorizeRoles)("owner"), booking_controller_1.handleGetBookedPropertiesByIdOwnerId);
+exports.default = bookingRouter;

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const agentCommission_controller_1 = require("../controllers/agentCommission.controller");
+const authenticate_1 = require("../middleware/authenticate");
+const commissionRouter = (0, express_1.Router)();
+// commissionRouter.post("/createCommission",handleCreateAgentCommission);
+commissionRouter.get("/getCommissionByAgentId", authenticate_1.authenticate, agentCommission_controller_1.handleGetAllCommissionsByAgentId);
+// commissionRouter.get("/:id",handleGetCommissionById);
+exports.default = commissionRouter;
