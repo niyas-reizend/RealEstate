@@ -1,0 +1,15 @@
+
+{
+  "version": 2,
+  "projects": {
+    "frontend": {
+      "rootDirectory": "frontend",
+      "framework": "react"
+    },
+    "backend": {
+      "rootDirectory": "backend",
+      "builds": [{ "src": "src/server.ts", "use": "@vercel/node" }],
+      "routes": [{ "src": "/(.*)", "dest": "src/server.ts" }]
+    }
+  }
+}
