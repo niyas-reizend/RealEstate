@@ -21,7 +21,3 @@ export const generateRefreshToken = (user: UserPayload): string => {
   return jwt.sign(user, refreshToken, { expiresIn: '1d' });
 };
 
-
-// export const verifyRefreshToken = (token: string): UserPayload => {
-//   return jwt.verify(token, refreshToken) as UserPayload;
-// };
